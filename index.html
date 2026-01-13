@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8" />
-<title>語音辨識錯字校正 → 專業術語轉換工具</title>
+<title>字幕chi_to_cht</title>
 <style>
     body {
         font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
@@ -40,7 +40,7 @@
 <body>
 
 <div class="box">
-    <h1>語音辨識錯字 → 專業術語自動校正</h1>
+    <h1>字幕chi_to_cht</h1>
 
     <input type="file" id="fileInput" />
     <br>
@@ -60,6 +60,102 @@
    (語音辨識錯誤 → 正確技術術語)
 ====================================== */
 const replaceMap = [
+    /* ===== 新增：硬體工程專業術語校正 ===== */
+    ["SYD", "SVID"],
+    ["iDAW", "Idaville"],
+    ["iDAO", "Idaville"],
+    ["Adaway", "Idaville"],
+    ["Idaville", "Idaville"], // 原寫法正確字
+    ["Walking", "Working"],
+    ["Sort to Off", "Soft Off"],
+    ["Soft Off", "Soft Off"], // 原寫法正確字
+    ["Othlary", "Auxiliary"],
+    ["Auxiliary", "Auxiliary"], // 原寫法正確字
+    ["Susband", "Suspend"],
+    ["Suspend", "Suspend"], // 原寫法正確字
+    ["PICUPS", "UI"],
+    ["4S4", "S4"],
+    ["Sort Off", "Soft Off"],
+    ["Suspend to Run", "Suspend to RAM"],
+    ["Pow Off", "Power Off"],
+    ["Power Off", "Power Off"], // 原寫法正確字
+    ["iw平台", "AdW平台"],
+    ["AdW平台", "Idaville平台"],
+    ["Idaville平台", "Idaville平台"], // 原寫法正確字
+    ["Nike", "NAC"],
+    ["NAC", "NAC (Network Acceleration Complex)"],
+    ["stores時序", "商店時序"],
+    ["商店時序", "上電時序"],
+    ["上電時序", "電源時序"],
+    ["電源時序", "電源時序"], // 原寫法正確字
+    ["RC电阻", "RC電路"],
+    ["復備", "復位"],
+    ["復位", "復位"], // 原寫法正確字
+    ["PLT Reset", "PRT Reset"],
+    ["PRT Reset", "PLTRST"],
+    ["PCIe PowerOK", "PCH_PWROK"],
+    ["SYDSVID", "841"],
+    ["841", "842"],
+    ["bus1", "bus2"],
+    ["bus2", "Crow"],
+    ["Core10", "HUB10"],
+    ["mV", "PTG"],
+    ["PTG", "ED SVID"],
+    ["BOOT", "VBoot"],
+    ["Alert", "Alert"], // 原寫法正確，但上下文常指清除Alert
+    ["PTGID", "Product ID"],
+    ["SPAC", "Spec"],
+    ["艾夢", "IMON"],
+    ["IMON", "IMON"], // 原寫法正確字
+    ["SLU RATE", "SLEW RATE"],
+    ["RH8Dh", "ICMATH"], // 或正確的register
+    ["ICMATH", "ICMAX"],
+    ["REH8Eh", "PMATH"],
+    ["PMATH", "PMAX"],
+    ["VOUTMATH", "VOUTMAX"],
+    ["LowCode", "Loadline"],
+    ["PRODOTDECODE", "PROCHOT DECODE"],
+    ["DCLowLine", "DC Loadline"],
+    ["SRFAST", "SR_FAST"],
+    ["SRSlow", "SR_SLOW"],
+    ["WINPROUND", "VID ROUND"],
+    ["resist", "Register"],
+    ["Date", "Register"], // 可能為Register的誤寫
+    ["iMount", "IMON"],
+    ["resume reset", "RSMRST"],
+    ["face", "Phase"],
+    ["car", "Core"],
+    ["dd r", "DDR"],
+    ["skill", "SKU"],
+    ["nack", "NAC"],
+    ["fri ramp", "FIVR ramp"],
+    ["oslore", "AUX"], // 或 P1V8_AUX
+    ["AUX", "P1V8_AUX"],
+    ["vcd", "VCC"],
+    ["fake", "FIVR"], // 應為 FIVR
+    ["pacle", "PCIe"],
+    ["uncall", "Uncore"],
+    ["call", "Core"],
+    ["bsp", "BSP (Boot Strap Processor)"],
+    ["bs b", "BSP"],
+    ["morm reset", "Warm Reset"],
+    ["how to reset", "Warm Reset"],
+    ["arrue logo", "Error Log"],
+    ["handshade", "Handshaking"],
+    ["sweat", "Handshake"],
+    ["汗水", "Handshake"],
+    ["demote warmreset", "Demoted Warm Reset (DWR)"],
+    ["comical", "Watchdog"],
+    ["sav9", "CF9"],
+    ["輕RTC", "清RTC"],
+    ["清RTC", "Clear RTC"],
+    ["击击器寄存器", "PRO CHOT"],
+    ["PRO CHOT", "PROCHOT#"],
+    ["SIMO TRIP", "THERMTRIP#"],
+    ["Asset", "Assert"],
+    ["焊住", "卡住"],
+    ["卡住", "死機"],
+
     /* ===== 半導體專業詞彙：中國用語 → 台灣用語 ===== */
     ["集成電路", "積體電路"],
     ["納米", "奈米"],
@@ -217,15 +313,15 @@ const replaceMap = [
     ["英特爾注意器", "Intel處理器"],
     ["地域APIC", "目前APIC"],
     ["一種對應一個", "都對應一個"],
-    ["計程器", "寄存器"],
+    ["計程器", "暫存器"],
     ["一些外部的一些中斷", "一些外部的中斷"],
     ["APICBus", "APIC匯流排"],
     ["一些相應的中斷的處理", "相應的中斷處理"],
     ["NOGAPIC的IoDevice", "本地連接的IO設備"],
     ["IoIn-0和IoIn-1", "LINT0和LINT1"],
-    ["是名的邊緣或者電面", "信號的邊緣或電平"],
+    ["是名的邊緣或者電面", "訊號的邊緣或電平"],
     ["IoPeak", "IOAPIC"],
-    ["是名在邊緣或者電瓶", "信號的邊緣或電平"],
+    ["是名在邊緣或者電瓶", "訊號的邊緣或電平"],
     ["處理器直接的中斷", "處理器間中斷"],
     ["英特爾64或者IS32的處理器", "Intel 64或IA-32處理器"],
     ["系統總結", "系統匯流排"],
@@ -252,19 +348,19 @@ const replaceMap = [
     ["錄個API個", "Local APIC"],
     ["中斷源難產", "中斷源"],
     ["API個Base", "APIC Base"],
-    ["MSR的計程器", "MSR寄存器"],
+    ["MSR的計程器", "MSR暫存器"],
     ["IPIC", "APIC"],
     ["成統意義的來說", "傳統意義來說"],
     ["LWSC", "SoC"],
     ["南角", "南橋"],
-    ["硬體閃生的中斷信號", "硬體產生的中斷信號"],
+    ["硬體閃生的中斷信號", "硬體產生的中斷訊號"],
     ["通貨匯流排", "通過匯流排"],
     ["第24個中斷管角", "24個中斷管腳"],
-    ["有支持24個中斷", "支持24個中斷"],
+    ["有支持24個中斷", "支援24個中斷"],
     ["24項的一個中斷", "24項的中斷"],
     ["中斷從定向表", "中斷重定向表"],
     ["redivision table", "Redirection Table"],
-    ["64位的一個計程器", "64位的寄存器"],
+    ["64位的一個計程器", "64位的暫存器"],
     ["發送可接收IPIC資訊的一個資訊單元", "發送和接收APIC資訊的一個資訊單元"],
     ["appriority", "Priority"],
     ["ITT中斷描述符table", "IDT中斷描述符表"],
