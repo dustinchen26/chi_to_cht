@@ -60,6 +60,27 @@
    (語音辨識錯誤 → 正確技術術語)
 ====================================== */
 const replaceMap = [
+    /* ===== 新增：DELL 相關術語與常見錯字校正 ===== */
+    ["iDrac", "iDRAC"],
+    ["onboard", "Onboard"],
+    ["PGNAT", "PG net"],
+    ["Jinkins", "Jenkins"],
+    ["PUTI", "putty"],
+    ["HWA Event", "hwinventory"],
+    ["代測", "待測"],
+    ["Ragonshark", "racadm"],
+    ["帳名", "帳密"],
+    ["PPA-Lasted", "PBA-Latest"],
+    ["測像", "測項"],
+    ["Ninus", "Linux"],
+    ["Finaly", "binary"],
+    ["Config Funnel", "Configfilemode"],
+    ["NorPad", "Notepad"],
+    ["Area", "arev"],
+    ["Redden", "racadm"],
+    ["金剛號", "驚嘆號"],
+    ["側向", "測項"],
+
     /* ===== 新增：硬體工程專業術語校正 ===== */
     ["SYD", "SVID"],
     ["iDAW", "Idaville"],
@@ -223,7 +244,6 @@ const replaceMap = [
     ["Hermit", "Commit"],
     ["Vetire", "Retire"],
     ["CELCY", "Retire"],
-    ["FG", "Fetch"],
     ["Dehold", "Decode"],
     ["Hedge", "Cache"],
     ["HedgeLAN", "Cache Line"],
@@ -297,7 +317,6 @@ const replaceMap = [
     ["Trip on Task Survey", "Trap on Task Switch"],
     ["外部運件", "外部硬體"],
     ["CPU雲角做法", "CPU引腳觸發"],
-    ["Flash", "FLUSH"],
     ["Stop Log", "STOPCLK"],
     ["Bring Point", "Breakpoint"],
     ["Debug的一切", "Debug Trap"],
